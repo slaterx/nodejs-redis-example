@@ -22,8 +22,8 @@ var initDb = function(callback) {
     var redis = require('redis');
     var client = redis.createClient(redisPort, redisHost, {no_ready_check: true});
     console.log('Connected to Redis at: %s', redisHost);
-    client.set("name", "value");
-    console.log('Connected to Redis at: %s', redisHost, ' and set/get name=%s', client.get("name"));
+    client.set('foo', 'bar');
+    console.log('Connected to Redis at: %s', redisHost, ' and set/get name=%s', client.get('name'));
 };
 
 app.get('/', function (req, res) {
