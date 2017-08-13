@@ -29,7 +29,8 @@ var initDb = function(callback) {
         client = redis.createClient(redisURL, {no_ready_check: true});
     
     client.on("error", function (err) {
-        console.log("Redis connecting error using " + redisURL + " " + err);
+        callback("Redis connecting error using " + redisURL + " " + err);
+        return;
     });
         
     console.log('Connected to Redis at %s', redisHost, ':', redisPort);
