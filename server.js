@@ -21,7 +21,8 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
 var redisURL = 'redis://' + redisUser + ':' + redisPassword + '@' + redisHost + ':' + redisPort;
 
 var db = null,
-    dbDetails = new Object();
+    dbDetails = new Object(),
+    count = 0;;
 
 var initDb = function(callback) {
     
@@ -32,7 +33,8 @@ var initDb = function(callback) {
         callback("Redis connecting error using " + redisURL + " " + err);
         return;
     });
-        
+    
+    db = true;
     console.log('Connected to Redis at %s', redisHost, ':', redisPort);
 };
 
@@ -43,12 +45,10 @@ app.get('/', function (req, res) {
     initDb(function(err){});
   }
   if (db) {
-    var col = db.collection('counts');
-    // Create a document with request IP and current time of request
-    col.insert({ip: req.ip, date: Date.now()});
-    col.count(function(err, count){
-      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
-    });
+    count += 1;
+    client.set('count', count+1);
+    console.log('Counter = ' + client.get('count'));  
+    res.render('index.html', { pageCountMessage : count});
   } else {
     res.render('index.html', { pageCountMessage : null});
   }
@@ -61,9 +61,7 @@ app.get('/pagecount', function (req, res) {
     initDb(function(err){});
   }
   if (db) {
-    db.collection('counts').count(function(err, count ){
-      res.send('{ pageCount: ' + count + '}');
-    });
+    res.send('{ pageCount: ' + count + '}');
   } else {
     res.send('{ pageCount: -1 }');
   }
@@ -76,7 +74,7 @@ app.use(function(err, req, res, next){
 });
 
 initDb(function(err){
-  console.log('Error connecting to Mongo. Message:\n'+err);
+  console.log('Error connecting to Redis. Message:\n'+err);
 });
 
 app.listen(port, ip);
