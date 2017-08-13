@@ -13,7 +13,12 @@ app.use(morgan('combined'))
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     redisPort = process.env.REDIS_SERVICE_PORT || 6379,
-    redisHost = process.env.REDIS_SERVICE_HOST || '127.0.0.1';
+    redisHost = process.env.REDIS_SERVICE_HOST || '127.0.0.1',
+    redisUser = process.env.REDIS_USER || 'user',
+    redisPassword = process.env.REDIS_PASSWORD || 'password',
+    redisDB = process.env.REDIS_DATABASE || 'sampledb';
+
+var redisURL = 'redis://' + redisUser + ':' + redisPassword + '@' + redisHost + ':' + redisPort;
 
 var db = null,
     dbDetails = new Object();
@@ -21,7 +26,7 @@ var db = null,
 var initDb = function(callback) {
     
     var redis = require('redis'),
-        client = redis.createClient(redisPort, redisHost, {no_ready_check: true});
+        client = redis.createClient(redisURL, {no_ready_check: true});
     
     client.on("error", function (err) {
         console.log("Redis connecting error " + err);
