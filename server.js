@@ -10,6 +10,13 @@ Object.assign=require('object-assign')
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
 
+var redisPort = process.env.REDIS_SERVICE_PORT || 6379,
+    redisHost = process.env.REDIS_SERVICE_HOST || '127.0.0.1';
+
+var redis = require('redis');
+var client = redis.createClient(redisPort, redisHost, {no_ready_check: true});
+console.log('Connected to Redis');
+
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
