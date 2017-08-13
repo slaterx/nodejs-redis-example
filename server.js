@@ -22,12 +22,14 @@ var redisURL = 'redis://' + redisUser + ':' + redisPassword + '@' + redisHost + 
 
 var db = null,
     dbDetails = new Object(),
+    client = null,
     count = 0;;
 
 var initDb = function(callback) {
     
-    var redis = require('redis'),
-        client = redis.createClient(redisURL, {no_ready_check: true});
+    var redis = require('redis');
+    
+    client = redis.createClient(redisURL, {no_ready_check: true});
     
     client.on("error", function (err) {
         callback("Redis connecting error using " + redisURL + " " + err);
