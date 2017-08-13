@@ -32,7 +32,7 @@ var initDb = function(callback) {
         console.log("Redis connecting error " + err);
     });
         
-    console.log('Connected to Redis at %s', redisHost, ':','%s', redisPort);
+    console.log('Connected to Redis at %s', redisHost, ':', redisPort);
 };
 
 app.get('/', function (req, res) {
