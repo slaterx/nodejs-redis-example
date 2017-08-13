@@ -37,6 +37,10 @@ var initDb = function(callback) {
     });
     
     db = true;
+    dbDetails.databaseName = redisDB;
+    dbDetails.url = redisURL;
+    dbDetails.type = 'Redis';
+    
     console.log('Connected to Redis at %s', redisHost, ':', redisPort);
 };
 
@@ -50,7 +54,7 @@ app.get('/', function (req, res) {
     count += 1;
     client.set('count', count+1);
     console.log('Counter = ' + client.get('count'));  
-    res.render('index.html', { pageCountMessage : count});
+    res.render('index.html', { pageCountMessage : count, , dbInfo: dbDetails });
   } else {
     res.render('index.html', { pageCountMessage : null});
   }
