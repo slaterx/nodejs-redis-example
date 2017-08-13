@@ -10,9 +10,6 @@ Object.assign=require('object-assign')
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
 
-
-console.log('Connected to Redis');
-
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     redisPort = process.env.REDIS_SERVICE_PORT || 6379,
@@ -23,8 +20,10 @@ var db = null,
 
 var initDb = function(callback) {
     var redis = require('redis');
-    redis.createClient(redisPort, redisHost, {no_ready_check: true});
+    var client = redis.createClient(redisPort, redisHost, {no_ready_check: true});
     console.log('Connected to Redis at: %s', redisHost);
+    client.set("name", "value");
+    console.log('Connected to Redis at: %s', redisHost, ' and set/get name=%s', client.get("name"));
 };
 
 app.get('/', function (req, res) {
