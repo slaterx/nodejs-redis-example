@@ -21,7 +21,7 @@ var db = null,
 var initDb = function(callback) {
     
     var redis = require('redis'),
-        client = redis.createClient(redisPort, redisHost);
+        client = redis.createClient(redisPort, redisHost, {no_ready_check: true});
     
     client.on("error", function (err) {
         console.log("Redis connecting error " + err);
