@@ -24,10 +24,10 @@ var initDb = function(callback) {
         client = redis.createClient(redisPort, redisHost);
     
     client.on("error", function (err) {
-        console.log("Error " + err);
+        console.log("Redis connecting error " + err);
     });
         
-    console.log('Connected to Redis at: %s', redisHost, ':%s', redisPort);
+    console.log('Connected to Redis at %s', redisHost, ':','%s', redisPort);
 };
 
 app.get('/', function (req, res) {
