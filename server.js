@@ -22,16 +22,9 @@ var db = null,
     dbDetails = new Object();
 
 var initDb = function(callback) {
-
     var redis = require('redis');
     redis.createClient(redisPort, redisHost, {no_ready_check: true});
-    if (err) {
-      callback(err);
-      return;
-    }
-
     console.log('Connected to Redis at: %s', redisHost);
-  });
 };
 
 app.get('/', function (req, res) {
