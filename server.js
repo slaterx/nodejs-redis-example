@@ -52,7 +52,7 @@ app.get('/', function (req, res) {
   }
   if (db) {
     count++;
-    client.set('count', count, redis.print);
+    client.set('count', count);
     console.log('Counter = ' + client.get('count'));  
     res.render('index.html', { pageCountMessage : client.get('count'), dbInfo: dbDetails });
   } else {
