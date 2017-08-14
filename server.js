@@ -53,18 +53,19 @@ app.get('/', function (req, res) {
   }
     
   if (db) {
-    count++;
-    client.set('count', count);
-    client.get('count', function(err, value) {
-        if (err) {
-            console.error("client.get(count) error");
-        } else {
-            console.log("client.get(count) returned " + value);
-            res.render('index.html', { pageCountMessage : value, dbInfo: dbDetails });
-        }
-    } else {
-        res.render('index.html', { pageCountMessage : null});
-    });
+      count++;
+      client.set('count', count);
+      client.get('count', function(err, value) {
+          if (err) {
+             console.error("client.get(count) error");
+          } else {
+             console.log("client.get(count) returned " + value);
+             res.render('index.html', { pageCountMessage : value, dbInfo: dbDetails });
+          }
+      });
+  } else {
+      res.render('index.html', { pageCountMessage : null});
+  }
 });
 
 app.get('/pagecount', function (req, res) {
