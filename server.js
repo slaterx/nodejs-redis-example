@@ -65,6 +65,7 @@ app.get('/', function (req, res) {
           }
       });
   }
+    
 });
 
 app.get('/pagecount', function (req, res) {
@@ -73,11 +74,18 @@ app.get('/pagecount', function (req, res) {
   if (!db) {
     initDb(function(err){});
   }
+    
   if (db) {
-    res.send('{ pageCount: ' + client.get('count') + '}');
-  } else {
-    res.send('{ pageCount: -1 }');
+      client.get('count', function(err, value) {
+          if (err) {
+             console.error("client.get(count) error");
+             res.render('index.html', { pageCount : -1 });
+          } else {
+            res.send('{ pageCount: ' + value + '}');
+          }
+      });
   }
+    
 });
 
 // error handling
