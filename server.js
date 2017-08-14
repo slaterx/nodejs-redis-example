@@ -23,7 +23,7 @@ var redisURL = 'redis://' + redisUser + ':' + redisPassword + '@' + redisHost + 
 var db = null,
     dbDetails = new Object(),
     client = null,
-    count = 0;;
+    count = 0;
 
 var initDb = function(callback) {
     
@@ -51,8 +51,8 @@ app.get('/', function (req, res) {
     initDb(function(err){});
   }
   if (db) {
-    count += 1;
-    client.set('count', count+1);
+    count++;
+    client.set('count', count);
     console.log('Counter = ' + client.get('count'));  
     res.render('index.html', { pageCountMessage : client.get('count'), dbInfo: dbDetails });
   } else {
