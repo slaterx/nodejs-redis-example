@@ -53,8 +53,13 @@ app.get('/', function (req, res) {
   if (db) {
     count++;
     client.set('count', count);
-    console.log('Counter = ' + client.get('count'));  
-    res.render('index.html', { pageCountMessage : client.get('count'), dbInfo: dbDetails });
+    client.get('count', function(err, pageCounter) {
+    if (err) {
+        console.error("client.get(count) error");
+    } else {
+        console.log("client.get(count) returned " + pageCounter);
+    }
+    res.render('index.html', { pageCountMessage : pageCounter, dbInfo: dbDetails });
   } else {
     res.render('index.html', { pageCountMessage : null});
   }
