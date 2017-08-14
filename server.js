@@ -54,7 +54,7 @@ app.get('/', function (req, res) {
     count += 1;
     client.set('count', count+1);
     console.log('Counter = ' + client.get('count'));  
-    res.render('index.html', { pageCountMessage : count, , dbInfo: dbDetails });
+    res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
   } else {
     res.render('index.html', { pageCountMessage : null});
   }
