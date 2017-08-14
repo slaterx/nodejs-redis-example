@@ -45,11 +45,13 @@ var initDb = function(callback) {
 };
 
 app.get('/', function (req, res) {
+    
   // try to initialize the db on every request if it's not already
   // initialized.
   if (!db) {
     initDb(function(err){});
   }
+    
   if (db) {
     count++;
     client.set('count', count);
@@ -62,7 +64,7 @@ app.get('/', function (req, res) {
         }
     } else {
         res.render('index.html', { pageCountMessage : null});
-    }
+    });
 });
 
 app.get('/pagecount', function (req, res) {
